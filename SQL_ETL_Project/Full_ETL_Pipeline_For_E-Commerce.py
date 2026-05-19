@@ -1,87 +1,117 @@
-#Import Pandas ,Numpy and sqlalchemy
-
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
+import logging
+logging.basicConfig(filename="Logs_Outputs",level= logging.INFO,format= '%(asctime)s - %(levelname)s - %(message)s',datefmt= '%Y-%m-%d  %H:%M:%S')
 
 #Extract Data From MySQl
 def Extract():
 
-    connection = create_engine(
+    try:
+
+     connection = create_engine(
 
         "mysql+pymysql://root:root@localhost:3306/Ecommerce_etl"
-    )
+     )
 
-    Customers = pd.read_sql("Select * From Customers",connection)
+     Customers = pd.read_sql("Select * From Customers",connection)
 
-    Orders = pd.read_sql("Select * From Orders",connection)
+     Orders = pd.read_sql("Select * From Orders",connection)
 
-    Order_Items = pd.read_sql("Select * From Order_Items",connection)
+     Order_Items = pd.read_sql("Select * From Order_Items",connection)
 
-    Products = pd.read_sql("Select * From Products",connection)
+     Products = pd.read_sql("Select * From Products",connection)
 
-    return Customers,Orders,Order_Items,Products
+     return Customers,Orders,Order_Items,Products
+    
+    except FileNotFoundError as e:
+       
+       logging.error(f"File Could Not be Found{e}")
+       return None,None,None,None
+    
+    finally:
+       
+       logging.info("Extract Process is Complete!")
 
-#Transforming the data by using pandas (pd) and numpy (np)
-
+#Transforming 
 def Cleaning(Customers,Orders,Order_Items,Products):
-
-    Customers["Email"] = Customers["Email"].fillna("not_provided@gmail.com")  #Using pandas fillna function to set perticular value to null Emails
-
-    Customers["City"] = Customers["City"].str.title()   #Capitalizing the City names by using pandas function title()
-
-    Products["Stock"] = Products["Stock"].fillna(0)   #Giving 0 value to the empty stock.
-
-    df = pd.merge(Customers,Orders,
-                  on = "Customer_ID",
-                  how = "inner")
-    
-    df = pd.merge(df,Order_Items,
-                  on = "Order_ID",
-                  how = "inner")
-    
-    df = pd.merge(df,Products,
-                  on = "Product_ID",
-                  how = "inner")
-    
-    df["Total_Values"] = df["Price"] * df["Quantity"]  #Caluclating the total_values by product price and the quantity 
-
-    df["Tax"] = df["Total_Values"]*0.18  #Calculated the Tax by using column Total_value and multipling the value by 0.18 to add tax on each product of 18%
-
-    df["Final_Value"] = df["Total_Values"] + df["Tax"]  #Calculating the final value by total value + tax 
-
-    df = df[df["Status"] == "delivered"] #Displaying only those data that are delivered
-
-    df["Order_Size"] = np.where(df["Total_Values"] > 100000,"High", np.where(df["Total_Values"] > 50000,"Medium","Low")) #Use Numpy np conditional statement to categorize the order size into high medium or low based on total values
-
-    
-    
-    return df
-
-#load the data into sql
-
-def Load(df):
-
-    conn = create_engine(
-
-        "mysql+pymysql://root:root@localhost:3306/Ecommerce_etl"
-    )
 
     try:
 
-        df.to_sql("Clean_Data",conn,
-              if_exists = "replace",
-              index = False)
-    
-        print("Data Sucessfully loaded")
-    except Exception as e:
+      logging.info("Transforming process is started....")
 
-        print(f"Data Loading error {e}")
+      Customers["Email"] = Customers["Email"].fillna("not_provided@gmail.com")
+
+      Customers["City"] = Customers["City"].str.title()
+
+      Products["Stock"] = Products["Stock"].fillna(0)
+
+      df = pd.merge(Customers,Orders,
+                    on = "Customer_ID",
+                    how = "inner")
+    
+      df = pd.merge(df,Order_Items,
+                    on = "Order_ID",
+                    how = "inner")
+    
+      df = pd.merge(df,Products,
+                    on = "Product_ID",
+                    how = "inner")
+    
+      df["Total_Values"] = df["Price"] * df["Quantity"]
+
+      df["Tax"] = df["Total_Values"]*0.18
+
+      df["Final_Value"] = df["Total_Values"] + df["Tax"]
+
+      df = df[df["Status"] == "delivered"]
+
+      df["Order_Size"] = np.where(df["Total_Values"] > 100000,"High", np.where(df["Total_Values"] > 50000,"Medium","Low"))
+ 
+      return df
+    
+    except KeyError as e:
+       
+       logging.error(f"The column could not find {e}")
+
+    finally:
+       
+       logging.info("The Transformation process is Complete")
+
+# Load Data into MySQL
+
+def Load(df):
+
+    try:
+
+      conn = create_engine(
+
+          "mysql+pymysql://root:root@localhost:3306/Ecommerce_etl"
+      )
+
+      df.to_sql("clean_data2020",conn,
+                if_exists = "replace",
+                index = False)
+    
+    except KeyError as e:
+       
+       logging.error("Data failed to load {e}")
+
+    finally:
+       
+       logging.info("Data loaded successfully")
+
+
 
 Customers,Orders,Order_Items,Products = Extract()
 
 Clean = Cleaning(Customers,Orders,Order_Items,Products)
 
-loaded = Load(Clean)
+if Clean is not None:
+   
+    Load(Clean)
 
-print(loaded)
+else:
+   
+   logging.info("Data Failed to load")
+   
