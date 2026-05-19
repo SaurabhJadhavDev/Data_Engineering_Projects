@@ -2,12 +2,14 @@
 
 ## About This Project
 This project demonstrates a complete ETL (Extract, Transform, Load) pipeline using Python, Pandas, and MySQL.
+This project also uses logging for recording each part execute properly 
 
 The pipeline:
 - Extracts data from MySQL tables
 - Cleans and transforms data using Pandas
 - Performs joins and calculations
 - Loads clean data back into MySQL
+- Perform Exception Handaling
 
 ---
 
@@ -48,6 +50,8 @@ Loaded transformed data into MySQL database.
 - SQL + Python Integration
 - Pandas Data Processing
 - Database Operations
+- Error Handaling
+- Display Clean Coding Skills
 
 ---
 
