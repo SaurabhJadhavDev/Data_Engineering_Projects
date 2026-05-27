@@ -1,0 +1,11 @@
+Customer_ID,Customer_Name,City,Age,Membership
+101,Rahul,Mumbai,63,Gold
+102,Priya,Pune,29,Silver
+103,Amit,Delhi,16,Gold
+104,Sneha,Chennai,20,Bronze
+105,Karan,Mumbai,35,Silver
+106,Neha,,24,Gold
+107,Arjun,Pune,,Bronze
+108,Pooja,Delhi,28,Silver
+109,Ravi,Hyderabad,26,
+110,Anjali,,32,Bronze
