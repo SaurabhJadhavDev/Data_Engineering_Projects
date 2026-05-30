@@ -1,0 +1,11 @@
+RowID,City,State,Population,Area,Literacy_Rate,Hospitals,Schools,GDP
+0,Pune,Maharashtra,7200000,331,89,120,900,69
+1,Mumbai,Maharashtra,20700000,603,89,300,2000,310
+2,Delhi,Delhi,19000000,1484,86,250,1800,293
+3,Bangalore,Karnataka,12000000,709,88,200,1500,110
+4,Chennai,Tamil Nadu,11000000,426,90,150,1200,78
+5,Kolkata,West Bengal,15000000,205,87,180,1400,150
+6,Hyderabad,Telangana,10000000,650,84,170,1300,74
+7,Ahmedabad,Gujarat,8000000,464,88,100,850,68
+8,Jaipur,Rajasthan,4000000,485,87,80,600,24
+9,Lucknow,Uttar Pradesh,3500000,631,84,70,500,20
