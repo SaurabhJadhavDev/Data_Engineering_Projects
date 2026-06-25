@@ -19,7 +19,7 @@ analytics-ready dataset into a **MySQL database**.
 ```
 ✅ 3 Data Sources     → Live API + CSV + JSON (all in one pipeline!)
 ✅ Live Weather Data  → Real-time from OpenWeatherMap API
-✅ 10 Indian Cities   →  city list from CSV 
+✅ 10 Indian Cities   →  City list from CSV 
 ✅ 10+ KPIs Generated → City Score, Tier, Rank, Investment Potential
 ✅ Security           → dotenv for API keys & DB credentials
 ✅ Error Handling     → try/except/finally in all 3 functions
@@ -56,7 +56,7 @@ Provider → OpenWeatherMap (Free Plan)
 Type     → REST API (HTTP GET request)
 Format   → JSON response
 Data     → Temperature, Humidity, Weather Condition
-Cities   → Dynamically fetched from CSV file
+Cities   →  Fetched from CSV file
 URL      → api.openweathermap.org/data/2.5/weather
 ```
 
