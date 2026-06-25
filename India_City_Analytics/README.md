@@ -19,7 +19,7 @@ analytics-ready dataset into a **MySQL database**.
 ```
 ✅ 3 Data Sources     → Live API + CSV + JSON (all in one pipeline!)
 ✅ Live Weather Data  → Real-time from OpenWeatherMap API
-✅ 10 Indian Cities   → Dynamic city list from CSV (no hardcoding!)
+✅ 10 Indian Cities   →  city list from CSV 
 ✅ 10+ KPIs Generated → City Score, Tier, Rank, Investment Potential
 ✅ Security           → dotenv for API keys & DB credentials
 ✅ Error Handling     → try/except/finally in all 3 functions
